@@ -1,4 +1,4 @@
-FROM node:16.13.0 AS builder-kbn-7.16
+FROM node:16.20 AS builder-kbn-7.16
 RUN npm install --global @bazel/bazelisk@1.10.1
 USER node
 RUN git clone --depth 1 --branch v7.16.0 https://github.com/elastic/kibana /home/node/kbn
@@ -11,7 +11,7 @@ RUN yarn config set registry http://host.docker.internal:4873 && \
 RUN rm -rf /home/node/.cache/yarn && rm -rf /home/node/.cache/Cypress && rm -rf /home/node/.cache/ms-playwright 
 RUN mkdir -p /home/node/kbn/data/wazuh/config 
 
-FROM node:16.13.0
+FROM node:16.20
 USER node
 COPY --from=builder-kbn-7.16 /home/node/ /home/node/
 WORKDIR /home/node/kbn
